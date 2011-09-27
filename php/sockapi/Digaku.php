@@ -18,18 +18,17 @@ class Digaku
 	 *    						  for use native C driver (faster),
 	 *    						  or `msgpack-php` for use pure PHP driver (slower).
 	 */
-	function __construct( $host, $port, $msgpack_driver )
+	function __construct( $host, $port, $msgpack_driver, $debug_mode=false)
 	{
-		$registry = &get_registry();
 		$this->host = $host;
 		$this->port = $port;
 		
-		$this->msgpacklib = $msgpack_driver; //$registry->config['msgpack_lib'];
+		$this->msgpacklib = $msgpack_driver;
 		try{
 			$this->connect();
 		}catch(Exception $e){
 			echo "Digaku SockAPI connection failed.";
-			if($registry->config['debug'] == true){
+			if($this->debug_mode == true){
 				echo '<pre>';
 				echo 'Using host: ' . $this->host . ', port: ' . $this->port . '\n';
 				print_r($e);
